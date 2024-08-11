@@ -95,9 +95,9 @@ export function SignupFormDemo() {
                 </LabelInputContainer>
 
                 <LabelInputContainer className="mb-4">
-                    <Label htmlFor="repeatPassword"
+                    <Label htmlFor="repeatpassword"
                         style={{ color: isErrors('repeatPassword') && 'red' }}
-                    > {errors && errors.repeatPassword ? errors.repeatPassword.message : "Password"} </Label>
+                    > {errors && errors.repeatPassword ? errors.repeatPassword.message : "Repeat password"} </Label>
                     <Input id="repeatpassword" placeholder="••••••••" type="password" {...register('repeatPassword', { required: 'First name is required' })} colorVar={isErrors("repeatPassword")} />
                 </LabelInputContainer>
 

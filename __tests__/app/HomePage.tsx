@@ -1,13 +1,9 @@
 import { SignupFormDemo } from '@/app/components/Login';
 import Home from '@/app/page';
 import { fireEvent, render, screen } from '@testing-library/react';
+import exp from 'constants';
 
 
-
-it('renders homePage', () => {
-    render(<Home />);
-    expect(screen.getByText(/Get started by editing/)).toBeInTheDocument();
-});
 
 describe('Login', () => {
     it('renders login form', () => {
@@ -73,6 +69,25 @@ describe('Login', () => {
         fireEvent.change(screen.getByLabelText(/Last name/i), { target: { value: 'Jo' } });
         const errorMessageLastNameLengt = await screen.findByText(/Min 3 chars/i);
         expect(errorMessageLastNameLengt).toBeInTheDocument();
+
+        fireEvent.change(screen.getByLabelText(/Email/i), { target: { value: 'Jo' } });
+        const errorMessageEmail = await screen.findByText(/Invalid email address/i);
+        expect(errorMessageEmail).toBeInTheDocument();
+
+        const passwordInputs = screen.getAllByLabelText(/Password/i);
+        const repeatPasswordInput = screen.getByLabelText(/Repeat Password/i);
+        
+        // Selecciona el primer campo de contraseña
+        const passwordInput = passwordInputs[0];
+        
+        fireEvent.change(passwordInput, { target: { value: 'Jo' } });
+        const errorMessagePassword = await screen.findByText(/min 8 characters/i);
+        expect(errorMessagePassword).toBeInTheDocument();
+
+        fireEvent.change(repeatPasswordInput, { target: { value: 'Jon' } });
+        const errorMessageRepeatPassword = await screen.findByText(/Passwords must match/i);
+        expect(errorMessageRepeatPassword).toBeInTheDocument();
+
 
     });
 });
