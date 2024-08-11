@@ -69,10 +69,10 @@ export function SignupFormDemo() {
             <form className="my-8" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                     <LabelInputContainer>
-                        <Label htmlFor="firstnameee"
+                        <Label htmlFor="firstname"
                             style={{ color: isErrors('firstname') && 'red' }}
                         > {errors && errors.firstname ? errors.firstname.message : "First name"} </Label>
-                        <Input id="firstnasdme" placeholder="Tyler" type="text"  {...register('firstname', { required: 'First name is required' })} colorVar={isErrors("firstname")} />
+                        <Input id="firstname" placeholder="Tyler" type="text"  {...register('firstname', { required: 'First name is required' })} colorVar={isErrors("firstname")} />
                     </LabelInputContainer>
                     <LabelInputContainer>
                         <Label htmlFor="lastname"
