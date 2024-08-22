@@ -28,8 +28,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       mouseY.set(clientY - top);
     }
 
-    console.log(colorVar, "BIen");
-
     const colorInput = colorVar ? "--red-500" : "--blue-500";
 
     return (

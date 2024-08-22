@@ -12,6 +12,9 @@ import { Label } from "./ui/label";
 import { Form, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import axios from "axios";
+import { useRouter } from 'next/navigation'
+
 
 
 
@@ -37,24 +40,30 @@ type FormValues = {
 
 export function SignupFormDemo() {
 
+    const router = useRouter()
+
+
     const { register, handleSubmit, formState: { errors, isValid, isDirty } } = useForm<FormValues>({
         mode: 'onChange',
         resolver: yupResolver(schema),
     });
 
-    console.log('SignupFormDemo', errors);
-
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         // Imprime los valores del formulario en la consola
-        console.log(data);
+        axios.post('https://jsonplaceholder.typicode.com/posts', data)
+            .then((response) => {
+                router.push('/dashboard')
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     const isErrors = (fieldName: keyof FormValues) => {
-        return errors[fieldName] ? true : false;
+        const isTrue = errors[fieldName] ? true : false;
+        return isTrue;
     };
-
-    console.log('errors', isErrors('firstname'));
 
     return (
         <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
@@ -70,33 +79,34 @@ export function SignupFormDemo() {
                 <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
                     <LabelInputContainer>
                         <Label htmlFor="firstname"
-                            style={{ color: isErrors('firstname') && 'red' }}
+                            style={{ color: isErrors('firstname') ? 'red' : 'white' }}
                         > {errors && errors.firstname ? errors.firstname.message : "First name"} </Label>
                         <Input id="firstname" placeholder="Tyler" type="text"  {...register('firstname', { required: 'First name is required' })} colorVar={isErrors("firstname")} />
                     </LabelInputContainer>
                     <LabelInputContainer>
                         <Label htmlFor="lastname"
-                            style={{ color: isErrors('lastname') && 'red' }}
+                            style={{ color: isErrors('lastname') ? 'red' : 'white' }}
+
                         >{errors && errors.lastname ? errors.lastname.message : "Last name"}</Label>
                         <Input id="lastname" placeholder="Durden" type="text" {...register('lastname', { required: 'First name is required' })} colorVar={isErrors("lastname")} />
                     </LabelInputContainer>
                 </div>
                 <LabelInputContainer className="mb-4">
                     <Label htmlFor="email"
-                        style={{ color: isErrors('email') && 'red' }}
+                        style={{ color: isErrors('email') ? 'red' : 'white' }}
                     > {errors && errors.email ? errors.email.message : "Email"} </Label>
                     <Input id="email" placeholder="projectmayhem@fc.com" type="email"  {...register('email', { required: 'First name is required' })} colorVar={isErrors("email")} />
                 </LabelInputContainer>
                 <LabelInputContainer className="mb-4">
                     <Label htmlFor="password"
-                        style={{ color: isErrors('password') && 'red' }}
+                        style={{ color: isErrors('password') ? 'red' : 'white' }}
                     >{errors && errors.password ? errors.password.message : "Password"}</Label>
                     <Input id="password" placeholder="••••••••" type="password" {...register('password', { required: 'First name is required' })} colorVar={isErrors("password")} />
                 </LabelInputContainer>
 
                 <LabelInputContainer className="mb-4">
                     <Label htmlFor="repeatpassword"
-                        style={{ color: isErrors('repeatPassword') && 'red' }}
+                        style={{ color: isErrors('repeatPassword') ? 'red' : 'white' }}
                     > {errors && errors.repeatPassword ? errors.repeatPassword.message : "Repeat password"} </Label>
                     <Input id="repeatpassword" placeholder="••••••••" type="password" {...register('repeatPassword', { required: 'First name is required' })} colorVar={isErrors("repeatPassword")} />
                 </LabelInputContainer>
